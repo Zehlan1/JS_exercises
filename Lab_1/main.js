@@ -1,17 +1,21 @@
-const num1 = document.querySelector('#num1')
-const num2 = document.querySelector('#num2')
-const num3 = document.querySelector('#num3')
-const num4 = document.querySelector('#num4')
-const btnSubmit = document.querySelector('#submit')
+let nums = document.querySelectorAll('input')
 const resultContainer = document.querySelector('#results')
 
-btnSubmit.addEventListener('click', () => {
-    resultContainer.innerHTML = 
-         "Sum = "+(Number(num1.value)+Number(num2.value)+Number(num3.value)+Number(num4.value))+
-         " Avg = "+((Number(num1.value)+Number(num2.value)+Number(num3.value)+Number(num4.value))/4)+
-         " Min = "+Math.min(Number(num1.value), Number(num2.value), Number(num3.value), Number(num4.value))+
-         " Max = "+Math.max(Number(num1.value), Number(num2.value), Number(num3.value), Number(num4.value))
-    console.log(num1.value)
+nums.forEach(num => {
+    num.addEventListener('input', updateResult)
 })
+
+function updateResult() {
+    const num1 = Number(document.querySelector('#num1').value)
+    const num2 = Number(document.querySelector('#num2').value)
+    const num3 = Number(document.querySelector('#num3').value)
+    const num4 = Number(document.querySelector('#num4').value)
+    resultContainer.innerHTML =
+        "Sum = "+(num1+num2+num3+num4)+
+        " Avg = "+((num1+num2+num3+num4)/4)+
+        " Min = "+Math.min(num1, num2, num3, num4)+
+        " Max = "+Math.max(num1, num2, num3, num4)
+}
+
 
 
