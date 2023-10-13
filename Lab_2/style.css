@@ -12,6 +12,14 @@
     animation-timing-function: ease-in-out; */
 }
 
+#controls {
+    display: flex;
+}
+
+#controls div{
+    margin: 10px;
+}
+
 @keyframes pociag-w-lewo {
     0% {
         transform: translateX(0);
