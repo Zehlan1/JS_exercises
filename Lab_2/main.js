@@ -35,7 +35,7 @@ function animate(next) {
             {
                 licznik = 2400
             }
-            if(licznik%600 == 0 && licznik != 0)
+            if(licznik%600 == 0)
             {
                 slides.style.transform = `translate(-${licznik}px)`
                 main.innerHTML = `Msg from setInterval: ${licznik}`
