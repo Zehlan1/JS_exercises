@@ -25,7 +25,7 @@ function animate(next) {
     const intervalRef = setInterval(
         () => {
             next ? licznik += 8 : licznik -= 8
-            next ? slides.style.transform = `translate(-${licznik}px)` : slides.style.transform = `translate(${licznik}px)`
+            slides.style.transform = `translate(-${licznik}px)`
             main.innerHTML = `Msg from setInterval: ${licznik}`
             if(licznik > 2400)
             {
@@ -35,9 +35,9 @@ function animate(next) {
             {
                 licznik = 2400
             }
-            if(licznik%600 == 0)
+            if(licznik%600 == 0 && licznik != 0)
             {
-            next ? slides.style.transform = `translate(-${licznik}px)` : slides.style.transform = `translate(${licznik}px)`
+                slides.style.transform = `translate(-${licznik}px)`
                 main.innerHTML = `Msg from setInterval: ${licznik}`
                 clearInterval(intervalRef)
             }
