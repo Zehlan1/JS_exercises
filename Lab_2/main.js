@@ -1,5 +1,3 @@
-// notatnik z zajęć
-
 const main = document.querySelector('main')
 const slides = document.querySelector('.slides')
 const leftBtn = document.querySelector('#left')
@@ -11,85 +9,64 @@ const thirdBtn = document.querySelector('#pic3')
 const fourthBtn = document.querySelector('#pic4')
 const fifthBtn = document.querySelector('#pic5')
 
-// jednorazowe wykonanie kodu po określonym czasie
-// const timeoutRef = setTimeout(
-//     () => {
-//         slides.style.transform = 'translate(-10px)'
-//         main.innerHTML = 'Msg from setTimeout'
-//     },
-//     2000
-// )
+rightBtn.addEventListener('click', () => {move(true)})
+leftBtn.addEventListener('click', () => {move(false)})
 
-rightBtn.addEventListener('click', () => {animate(true)})
-leftBtn.addEventListener('click', () => {animate(false)})
-
-firstBtn.addEventListener('click', () => {navigate(1)})
-secondBtn.addEventListener('click', () => {navigate(2)})
-thirdBtn.addEventListener('click', () => {navigate(3)})
-fourthBtn.addEventListener('click', () => {navigate(4)})
-fifthBtn.addEventListener('click', () => {navigate(5)})
+firstBtn.addEventListener('click', () => {nav(0)})
+secondBtn.addEventListener('click', () => {nav(1)})
+thirdBtn.addEventListener('click', () => {nav(2)})
+fourthBtn.addEventListener('click', () => {nav(3)})
+fifthBtn.addEventListener('click', () => {nav(4)})
 
 // wykonywanie kodu co określony czas
 let licznik = 0
+const pics = [0, 600, 1200, 1800, 2400]
+const stepInit = 8
+let current = 0
 
-function animate(next) {
-    next ? console.log('right clicked') : console.log('left clicked')
+function move(next) {
+    switch (current | next) {
+        case 4 | true:
+            current = 0
+            next = false
+            amp = 5
+            break
+        case 0 | false:
+            current = 4
+            next = true
+            amp = 5
+            break
+        default:
+            amp = 1
+            next ? current+=1 : current-=1
+    }
+
+    animate(next, stepInit*amp)
+}
+
+function nav(dest) {
+    if(current == dest) {
+        return
+    }
+    if(Math.max(current, dest) == current) {
+        current = dest
+        amp = current-dest
+        animate(false, stepInit*amp)
+    } else {
+        current = dest
+        amp = dest-current
+        animate(true, stepInit*amp)
+    }
+}
+
+function animate(next, step) {
     const intervalRef = setInterval(
         () => {
-            next ? licznik += 8 : licznik -= 8
+            next ? licznik += step : licznik -= step
             slides.style.transform = `translate(-${licznik}px)`
             main.innerHTML = `Msg from setInterval: ${licznik}`
-            if(licznik > 2400)
-            {
-                licznik = 0
-            }
-            if(licznik < 0)
-            {
-                licznik = 2400
-            }
-            if(licznik%600 == 0)
-            {
-                slides.style.transform = `translate(-${licznik}px)`
-                main.innerHTML = `Msg from setInterval: ${licznik}`
-                clearInterval(intervalRef)
-            }
+            licznik == pics[current] ? clearInterval(intervalRef) : null
         },
         16
     )
 }
-
-function navigate(dest) {
-    const intervalRef = setInterval(
-        () => {
-            next ? licznik += 8 : licznik -= 8
-            slides.style.transform = `translate(-${licznik}px)`
-            main.innerHTML = `Msg from setInterval: ${licznik}`
-            if(licznik > 2400)
-            {
-                licznik = 0
-            }
-            if(licznik < 0)
-            {
-                licznik = 2400
-            }
-            if(licznik%600 == 0)
-            {
-                slides.style.transform = `translate(-${licznik}px)`
-                main.innerHTML = `Msg from setInterval: ${licznik}`
-                clearInterval(intervalRef)
-            }
-        },
-        16
-    )
-}
-
-
-
-// kasujemy setInterval
-// clearInterval(intervalRef)
-
-// kasujemy setTimeout
-// clearTimeout(intervalRef)
-
-
-// window.requestAnimationFrame
