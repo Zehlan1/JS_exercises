@@ -10,13 +10,17 @@ let speed = 5
 
 let ballTemp = {
     x: 0,
-    y: 0
+    y: 0,
+    xSpeed: 0,
+    ySpeed: 0
 }
 
 let holeTemp = {
     x: 0,
     y: 0
 }
+
+
 
 function onDeviceMove(event) {
 
@@ -25,8 +29,6 @@ function onDeviceMove(event) {
 function animate() {
     
 }
-
-ball.style.transform = 'translate(400, 500)'
 
 function succ(ball, hole) {
     return pit(ball.x - hole.x, ball.y - hole.y) < ballRad + holeRad ? true : false
