@@ -23,15 +23,10 @@ async function asyncFastaBigSum(arr) {
     if(arr.length < 2) {
         return arr[0]
     }
-    if(arr.length == 2) {
-        return await asyncAdd(arr[0], arr[1])
-    }
-    if(arr.length > 2) {
-        const half = Math.ceil(arr.length/2)
-        const left = arr.slice(0, half)
-        const right = arr.slice(half)
-        return await asyncAdd(asyncFastaBigSum(left), asyncFastaBigSum(right))
-    }
+    const half = Math.ceil(arr.length/2)
+    const left = arr.slice(0, half)
+    const right = arr.slice(half)
+    return await asyncAdd(asyncFastaBigSum(left), asyncFastaBigSum(right))
 }
 
 async function asyncBigSum(arr) {
