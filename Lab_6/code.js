@@ -21,14 +21,18 @@ let holeTemp = {
 }
 
 
-
+// aktualizacja zmiennych balla
 function onDeviceMove(event) {
 
 }
 
+// animacja balla
 function animate() {
     
 }
+
+// wykonuje się przed wygenerowaniem kazdej klatki
+requestAnimationFrame(animate)
 
 function succ(ball, hole) {
     return pit(ball.x - hole.x, ball.y - hole.y) < ballRad + holeRad ? true : false
