@@ -26,9 +26,8 @@ function remove_city(city_name) {
 }
 
 function getCities() {
-    let _cities = JSON.parse(localStorage.getItem('cities'))
-    let _cityAmount = JSON.parse(localStorage.getItem('cityAmount'))
-
-    typeof(_cities) === null ? cities = {} : cities = _cities
-    typeof(_cityAmount) === null ? cityAmount = 0 : cityAmount = _cityAmount
+    if(localStorage.getItem('cities') !== null){
+        cities = JSON.parse(localStorage.getItem('cities'))
+        cityAmount = JSON.parse(localStorage.getItem('cityAmount'))
+    }
 }
