@@ -6,19 +6,30 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="add_note">
-        <label for="title">Tytuł: </label>
-        <input type="text" id="title">
-        <label for="desc">Treść: </label>
-        <input type="text" id="desc">
-        <label for="color">Kolor: </label>
-        <input type="color" id="color">
-        <label for="marked">Oznacz: </label>
-        <input type="checkbox" id="marked">
-        <button id="create">Dodaj</button>
+    <div>
+        <label for="find">Find:</label>
+        <input type="text" id="find">
     </div>
-    <div id="note_container">
 
+    <div id="noteContainer"></div>
+    
+    <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title">
+        <br>
+        <label for="content">Content:</label>
+        <textarea id="content"></textarea>
+        <br>
+        <label for="color">Color:</label>
+        <input type="color" id="color">
+        <br>
+        <label for="tags">Tags (Separated by space):</label>
+        <input type="text" id="tags">
+        <br>
+        <label for="fav">Favourite:</label>
+        <input type="checkbox" id="fav">
+        <br>
+        <button id="addNote">Add Note</button>
     </div>
 
     <script src="code.js"></script>
