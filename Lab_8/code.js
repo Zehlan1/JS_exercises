@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', displayWeather)
+document.addEventListener('DOMContentLoaded', () => {
+    displayWeather()
+    setInterval(updateWeather, 300000)
+})
 document.querySelector('#addCity').addEventListener('click', addCity)
 
 const weatherContainer = document.getElementById('weatherContainer')
@@ -13,7 +16,7 @@ async function addCity() {
         return
     }
 
-    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a5913bf8ca2ef4f3d8bf2e3bbf49cb82`)
+    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=e2d15d7b3139bfc5e6c43077177e4c7d`)
     let data = await response.json()
 
     weatherList.push(data)
@@ -27,6 +30,18 @@ function deleteCity(index) {
     weatherList.splice(index, 1)
     localStorage.setItem('weather', JSON.stringify(weatherList))
 
+    displayWeather()
+}
+
+async function updateWeather() {
+    let weatherList = JSON.parse(localStorage.getItem("weather")) || []
+
+    weatherList.forEach(async (weather, index) => {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${weatherList[index].name}&appid=e2d15d7b3139bfc5e6c43077177e4c7d`)
+        weatherList[index] = await response.json()
+    })
+
+    localStorage.setItem("weather", JSON.stringify(weatherList))
     displayWeather()
 }
 
