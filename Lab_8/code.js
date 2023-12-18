@@ -1,33 +1,69 @@
-const cName = document.querySelector('#city_name')
-const addButton = document.querySelector('#create')
+document.addEventListener('DOMContentLoaded', displayWeather)
+document.querySelector('#addCity').addEventListener('click', addCity)
 
-let cities = {}
-let cityAmount = 0
-getCities()
+const weatherContainer = document.getElementById('weatherContainer')
 
-addButton.addEventListener('click', add_city)
+async function addCity() {
+    let weatherList = JSON.parse(localStorage.getItem('weather')) || []
+    const cityName = document.getElementById('city').value
 
-function add_city() {
-    let city = {
-        LastUpdate: Date.now(),
-        Weather: 'sunny'
+    if(weatherList.length > 9) {
+        alert('Over City limit (10)')
+        cityName = ''
+        return
     }
-    cities[cName.value] = city
-    cityAmount++
-    localStorage.setItem('cities', JSON.stringify(cities))
-    localStorage.setItem('cityAmount', JSON.stringify(cityAmount))
+
+    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a5913bf8ca2ef4f3d8bf2e3bbf49cb82`)
+    let data = await response.json()
+
+    weatherList.push(data)
+    localStorage.setItem('weather', JSON.stringify(weatherList))
+
+    displayWeather()
 }
 
-function remove_city(city_name) {
-    delete cities[city_name]
-    cityAmount--
-    localStorage.setItem('cities', JSON.stringify(cities))
-    localStorage.setItem('cityAmount', JSON.stringify(cityAmount))
+function deleteCity(index) {
+    let weatherList = JSON.parse(localStorage.getItem('weather'))
+    weatherList.splice(index, 1)
+    localStorage.setItem('weather', JSON.stringify(weatherList))
+
+    displayWeather()
 }
 
-function getCities() {
-    if(localStorage.getItem('cities') !== null){
-        cities = JSON.parse(localStorage.getItem('cities'))
-        cityAmount = JSON.parse(localStorage.getItem('cityAmount'))
-    }
+function displayWeather() {
+    weatherContainer.innerHTML = ""
+
+    let weatherList = JSON.parse(localStorage.getItem('weather')) || []
+
+    weatherList.forEach((data, index) => {
+        weatherContainer.appendChild(buildWeather(data, index))
+    })
+}
+
+function buildWeather(data, index) {
+    const newWeather = document.createElement('div')
+    newWeather.classList.add('weatherBlock')
+
+    const weatherData = document.createElement('div')
+    weatherData.classList.add('weatherData')
+
+    let temp = Math.round((data.main.temp - 273) * 10) / 10
+
+    weatherData.innerHTML = `
+        <p>${data.name}</p>
+        <p>Temp: ${temp.toFixed(1)} °C</p>
+        <p>Hum: ${data.main.humidity}%</p>
+        <p>Desc: ${data.weather[0].description}</p>
+        <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}.png">`
+
+    
+    const weatherDelete = document.createElement('button')
+    weatherDelete.classList.add('weatherDelete')
+    weatherDelete.setAttribute('onclick',`deleteCity(${index})`);
+    weatherDelete.textContent = 'Remove'
+
+    newWeather.appendChild(weatherData)
+    newWeather.appendChild(weatherDelete)
+
+    return newWeather
 }

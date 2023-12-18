@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", displayNotes)
+document.addEventListener('DOMContentLoaded', displayNotes)
 document.querySelector('#addNote').addEventListener('click', addNote)
 document.querySelector('#find').addEventListener('input', findNotes)
 
-const noteContainer = document.getElementById("noteContainer")
+const noteContainer = document.getElementById('noteContainer')
 
 function addNote() {
     const title = document.getElementById('title').value
@@ -23,9 +23,9 @@ function addNote() {
 }
 
 function deleteNote(index) {
-    let notes = JSON.parse(localStorage.getItem("notes"))
+    let notes = JSON.parse(localStorage.getItem('notes'))
     notes.splice(index, 1)
-    localStorage.setItem("notes", JSON.stringify(notes))
+    localStorage.setItem('notes', JSON.stringify(notes))
 
     displayNotes()
 }
@@ -48,27 +48,27 @@ function displayNotes() {
 }
 
 function buildNote(note, index) {
-    const newNote = document.createElement("div")
-    newNote.classList.add("note")
+    const newNote = document.createElement('div')
+    newNote.classList.add('note')
 
     let noteTitle = document.createElement('div')
-    noteTitle.classList.add("nTitle")
+    noteTitle.classList.add('nTitle')
     noteTitle.innerHTML = note.title
+    noteTitle.style.color = note.color
     let noteContent = document.createElement('div')
-    noteContent.classList.add("nContent")
+    noteContent.classList.add('nContent')
     noteContent.innerHTML = note.content
     let noteTags = document.createElement('div')
-    noteTags.classList.add("nTags")
+    noteTags.classList.add('nTags')
     noteTags.innerHTML = note.tags.length > 0 ? note.tags.join(' ') : ''
     let noteDate = document.createElement('div')
-    noteDate.classList.add("nDate")
+    noteDate.classList.add('nDate')
     noteDate.innerHTML = note.date
 
     const noteDelete = document.createElement('button')
     noteDelete.classList.add('noteDelete')
     noteDelete.setAttribute('onclick',`deleteNote(${index})`);
     noteDelete.textContent = 'Remove'
-    //noteDelete.addEventListener('click', deleteNote(index))
 
     newNote.appendChild(noteTitle)
     newNote.appendChild(noteContent)
@@ -80,7 +80,7 @@ function buildNote(note, index) {
 }
 
 function findNotes() {
-    const prompt = document.getElementById("find").value
+    const prompt = document.getElementById('find').value
     let notes = [...noteContainer.getElementsByClassName('note')]
 
     notes.forEach((note) => {
