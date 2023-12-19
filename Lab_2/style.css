@@ -6,10 +6,7 @@
 }
 #slider .slides {
     display: flex;
-    /* animation-name: pociag-w-lewo;
-    animation-duration: 4s;
-    animation-delay: 1s;
-    animation-timing-function: ease-in-out; */
+    transition: transform 0.3s;
 }
 
 #controls {
@@ -18,13 +15,4 @@
 
 #controls div{
     margin: 10px;
-}
-
-@keyframes pociag-w-lewo {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-2400px);
-    }
 }
