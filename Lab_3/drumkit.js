@@ -1,45 +1,7 @@
 document.addEventListener('keypress', onKeyPress)
-document.addEventListener('keypress', writeDown)
 
-const TrackText = {
-    1: document.querySelector('#nfo1'),
-    2: document.querySelector('#nfo2'),
-    3: document.querySelector('#nfo3'),
-    4: document.querySelector('#nfo4')
-}
-
-const RecBtn = {
-    1: document.querySelector('#rec1'),
-    2: document.querySelector('#rec2'),
-    3: document.querySelector('#rec3'),
-    4: document.querySelector('#rec4')
-}
-
-const StopBtn = {
-    1: document.querySelector('#stop1'),
-    2: document.querySelector('#stop2'),
-    3: document.querySelector('#stop3'),
-    4: document.querySelector('#stop4')
-}
-
-const PlayBtn = {
-    1: document.querySelector('#play1'),
-    2: document.querySelector('#play2'),
-    3: document.querySelector('#play3'),
-    4: document.querySelector('#play4')
-}
-
-let recording = false
-let currTrack = 0
-
-const Tracks = {
-    1: {},
-    2: {},
-    3: {},
-    4: {}
-}
-
-let timernum = 0
+let currentChannel = null
+let channels = [[],[],[],[]]
 
 const KeyToSound = {
     'a': document.querySelector('#s1'),
@@ -53,69 +15,81 @@ const KeyToSound = {
     'l': document.querySelector('#s9')
 }
 
-rec1.addEventListener('click', () => {record(1)})
-rec2.addEventListener('click', () => {record(2)})
-rec3.addEventListener('click', () => {record(3)})
-rec4.addEventListener('click', () => {record(4)})
+document.getElementById('1Record').addEventListener('click', () => startRecord(0))
+document.getElementById('2Record').addEventListener('click', () => startRecord(1))
+document.getElementById('3Record').addEventListener('click', () => startRecord(2))
+document.getElementById('4Record').addEventListener('click', () => startRecord(3))
 
-document.querySelector('#play1').addEventListener('click', () => {play(1)})
-play2.addEventListener('click', () => {play(2)})
-play3.addEventListener('click', () => {play(3)})
-play4.addEventListener('click', () => {play(4)})
+document.getElementById('1Play').addEventListener('click', () => playChannel(0))
+document.getElementById('2Play').addEventListener('click', () => playChannel(1))
+document.getElementById('3Play').addEventListener('click', () => playChannel(2))
+document.getElementById('4Play').addEventListener('click', () => playChannel(3))
 
-function play(channel) {
-    let curSound = 1
-    const soundsNum = Object.keys(Tracks[channel]).length
-    let ownTimer = 0
-    const timer = setInterval(
-        () => {
-            ownTimer += 1
-            if(ownTimer in Tracks[channel]){
-                playSound(Tracks[channel][ownTimer])
-                curSound += 1
-            }
-            if(curSound>soundsNum){
-                clearInterval(timer)
-            }
-        },
-        1
-    )
-}
+const channelChecks = [
+    document.getElementById('1Check'),
+    document.getElementById('2Check'),
+    document.getElementById('3Check'),
+    document.getElementById('4Check')
+]
 
-function record(channel) {
-    StopBtn[channel].style.display = 'flex'
-    RecBtn[channel].style.display = 'none'
-    recording = true
-    const timer = setInterval(
-        () => {
-            timernum += 1
-            TrackText[channel].innerHTML = `${timernum}`
-            StopBtn[channel].addEventListener('click', () => {
-                clearInterval(timer)
-                StopBtn[channel].style.display = 'none'
-                RecBtn[channel].style.display = 'flex'
-                TrackText[channel].innerHTML = ``
-                timernum = 0
-                recording = false
-            })
-        },
-        1
-    )
-}
+document.getElementById('stopRecord').addEventListener('click', stopRecord)
+document.getElementById('playSelected').addEventListener('click', playSelected)
 
-function writeDown(event) {
-    if(recording){
-        Tracks[currTrack].push({
-            key: timernum,
-            value: KeyToSound[event.key]
-        })
-    }
-}
 function onKeyPress(event) {
     const sound = KeyToSound[event.key]
     playSound(sound)
+
+    if(currentChannel != null) {
+        channels[currentChannel].push({ time: Date.now(), sound })
+        console.log(`added sound ${sound}`)
+    }
 }
+
 function playSound(sound) {
     sound.currentTime = 0
     sound.play()
+}
+
+function startRecord(channel) {
+    console.log(`set channel to ${channel}`)
+    currentChannel = channel
+    channels[channel] = []
+}
+
+function stopRecord() {
+    currentChannel = null
+}
+
+function playChannel(channel) {
+    channels[channel].forEach(({time, sound}) => {
+        setTimeout(() => playSound(sound), time - channels[channel][0].time)
+    })
+}
+
+function playSelected() {
+    channelChecks.forEach(function (channel, index) {
+        console.log(`channel ${channel}  index ${index}`)
+        channel.checked ? playChannel(index) : null
+    })
+}
+
+//metronome
+let metronomeInterval
+let metronomeState
+
+document.getElementById('metronomeSwitch').addEventListener('click', () => {
+    metronomeState = !metronomeState
+
+    if(metronomeState) {
+        const bpm = parseInt(document.getElementById('bpmInput').value)
+        const interval = 60 / bpm * 1000;
+        metronomeInterval = setInterval(() => playMetronomeSound(), interval)
+    } else {
+        clearInterval(metronomeInterval)
+    }
+});
+
+function playMetronomeSound() {
+    const metronomeSound = new Audio('./sounds/tink.wav')
+    metronomeSound.play()
 }

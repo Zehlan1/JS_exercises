@@ -6,46 +6,62 @@
     <title>Document</title>
 </head>
 <body>
-    <audio src="./sounds/boom.wav" controls id="s1"></audio>
-    <audio src="./sounds/clap.wav" controls id="s2"></audio>
-    <audio src="./sounds/hihat.wav" controls id="s3"></audio>
-    <audio src="./sounds/kick.wav" controls id="s4"></audio>
-    <audio src="./sounds/openhat.wav" controls id="s5"></audio>
-    <audio src="./sounds/ride.wav" controls id="s6"></audio>
-    <audio src="./sounds/snare.wav" controls id="s7"></audio>
-    <audio src="./sounds/tink.wav" controls id="s8"></audio>
-    <audio src="./sounds/tom.wav" controls id="s9"></audio>
-    <div id="channels">
+    <div id="audioContainer">
+        <audio src="./sounds/boom.wav" controls id="s1"></audio>
+        <label for="s1">A - Boom</label><br>
+        <audio src="./sounds/clap.wav" controls id="s2"></audio>
+        <label for="s2">S - Clap</label><br>
+        <audio src="./sounds/hihat.wav" controls id="s3"></audio>
+        <label for="s3">D - Hihat</label><br>
+        <audio src="./sounds/kick.wav" controls id="s4"></audio>
+        <label for="s4">F - Kick</label><br>
+        <audio src="./sounds/openhat.wav" controls id="s5"></audio>
+        <label for="s5">G - Openhat</label><br>
+        <audio src="./sounds/ride.wav" controls id="s6"></audio>
+        <label for="s6">H - Ride</label><br>
+        <audio src="./sounds/snare.wav" controls id="s7"></audio>
+        <label for="s7">J - Snare</label><br>
+        <audio src="./sounds/tink.wav" controls id="s8"></audio>
+        <label for="s8">K - Tink</label><br>
+        <audio src="./sounds/tom.wav" controls id="s9"></audio>
+        <label for="s9">L - Tom</label><br>
+    </div>
+
+    <div id="channelContainer">
         <div id="channel1">
-            Kanał 1 <br/>
-            <button id="rec1">Nagraj</button>
-            <button id="stop1">Stop</button>
-            <button id="play1">Odtwórz</button>
-            <div id="nfo1"></div>
+            <input type="checkbox" id="1Check" checked>
+            <label for="1Check">Channel 1</label>
+            <button id="1Record">Record</button>
+            <button id="1Play">Play</button>
         </div>
         <div id="channel2">
-            Kanał 1 <br/>
-            <button id="rec2">Nagraj</button>
-            <button id="stop2">Stop</button>
-            <button id="play2">Odtwórz</button>
-            <div id="nfo2"></div>
+            <input type="checkbox" id="2Check" checked>
+            <label for="2Check">Channel 2</label>
+            <button id="2Record">Record</button>
+            <button id="2Play">Play</button>
         </div>
         <div id="channel3">
-            Kanał 1 <br/>
-            <button id="rec3">Nagraj</button>
-            <button id="stop3">Stop</button>
-            <button id="play3">Odtwórz</button>
-            <div id="nfo3"></div>
+            <input type="checkbox" id="3Check" checked>
+            <label for="3Check">Channel 3</label>
+            <button id="3Record">Record</button>
+            <button id="3Play">Play</button>
         </div>
         <div id="channel4">
-            Kanał 1 <br/>
-            <button id="rec4">Nagraj</button>
-            <button id="stop4">Stop</button>
-            <button id="play4">Odtwórz</button>
-            <div id="nfo4"></div>
+            <input type="checkbox" id="4Check" checked>
+            <label for="4Check">Channel 4</label>
+            <button id="4Record">Record</button>
+            <button id="4Play">Play</button>
         </div>
     </div>
-    
+
+    <div id="controlsContainer">
+        <button id="stopRecord">Stop Recording</button>
+        <button id="playSelected">Play Selected Channels</button><br>
+        <label for="bpmInput">BPM:</label>
+        <input type="number" id="bpmInput" value="60" min="1">
+        <button id="metronomeSwitch">Metronome ON/OFF</button>
+    </div>
+
     <script src="drumkit.js"></script>
-</body> 
+</body>
 </html>
