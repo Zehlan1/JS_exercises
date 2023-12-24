@@ -41,7 +41,6 @@ function onKeyPress(event) {
 
     if(currentChannel != null) {
         channels[currentChannel].push({ time: Date.now(), sound })
-        console.log(`added sound ${sound}`)
     }
 }
 
@@ -51,7 +50,6 @@ function playSound(sound) {
 }
 
 function startRecord(channel) {
-    console.log(`set channel to ${channel}`)
     currentChannel = channel
     channels[channel] = []
 }
@@ -68,7 +66,6 @@ function playChannel(channel) {
 
 function playSelected() {
     channelChecks.forEach(function (channel, index) {
-        console.log(`channel ${channel}  index ${index}`)
         channel.checked ? playChannel(index) : null
     })
 }
