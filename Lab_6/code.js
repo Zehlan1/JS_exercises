@@ -81,9 +81,7 @@ function createHoles() {
 function createBall() {
     ball = {
         x: Math.floor(canvas.width/2),
-        y: Math.floor(canvas.height/2),
-        dx: 0,
-        dy: 0
+        y: Math.floor(canvas.height/2)
     }
 }
 
@@ -96,7 +94,6 @@ function createTheHole() {
 
 function updateBall() {
     ballMomentum = normalizeSensors(sensors)
-    ball.dx
     ball.x += ballMomentum.x
     ball.y += ballMomentum.y
 
